@@ -1,0 +1,19 @@
+{
+  "name": "node-tc-status",
+  "version": "0.0.0",
+  "description": "visual teamcity status",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/evilmachina/node-tc-status.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "raspberrypixels": "0.0.3"
+  }
+}
