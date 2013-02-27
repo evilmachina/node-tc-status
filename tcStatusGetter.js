@@ -5,7 +5,7 @@ var options = {
   port: 80,
   path: '/httpAuth/app/rest/builds/?locator=buildType:bt2,count:1,running:any',
   method: 'GET',
-  heders: {'Accept':'application/json'}
+  headers: {'Accept':'application/json'}
 };
 
 var getStatus = function(){   
