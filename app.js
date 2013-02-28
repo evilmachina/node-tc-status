@@ -1,7 +1,7 @@
 var tcHelper = require('./tcStatusGetter');
 var config = require('./config'); 
 var Pixel = require('adafruit-pixel').Pixel;
-var lights = Pixel('/dev/spidev0.0', 64);
+var lights = new Pixel('/dev/spidev0.0', 64);
 
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
@@ -19,7 +19,7 @@ var buildSuccess = function(){
 off();
 
 var handleStatus = function(data){
-    
+    console.log(data);
     var lastbuild = JSON.parse(data).build[0];
     
     if(lastbuild.status == "SUCCESS" && lastbuild.running){

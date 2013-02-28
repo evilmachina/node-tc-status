@@ -3,7 +3,7 @@ var http = require('http');
 var options = {
   hostname: '',
   port: 80,
-  path: '/httpAuth/app/rest/builds/?locator=buildType:bt99,count:1,running:any',
+  path: '/httpAuth/app/rest/builds/?locator=buildType:bt2,count:1,running:any',
   method: 'GET',
   headers: {'Accept':'application/json'}
 };
