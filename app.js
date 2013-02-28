@@ -1,5 +1,6 @@
 var tcHelper = require('./tcStatusGetter');
 var config = require('./config');
+var animations = require('./animations/animations'); 
 
 
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
@@ -14,7 +15,7 @@ var handleStatus = function(data){
          console.log('faild'); 
     }else if(lastbuild.status == "SUCCESS"){
          console.log('success'); 
-    };
+    }
    
-}
+};
 tc.getStatus(handleStatus);
