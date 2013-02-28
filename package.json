@@ -14,6 +14,6 @@
   "license": "BSD",
   "readmeFilename": "README.md",
   "dependencies": {
-    "raspberrypixels": "0.0.3"
+    "adafruit-pixel": "git://github.com/evilmachina/node-adafruit-pixel.git"
   }
 }

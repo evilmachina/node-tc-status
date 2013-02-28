@@ -1,9 +1,22 @@
 var tcHelper = require('./tcStatusGetter');
-var config = require('./config');
-var animations = require('./animations/animations'); 
-
+var config = require('./config'); 
+var Pixel = require('adafruit-pixel').Pixel;
+var lights = Pixel('/dev/spidev0.0', 64);
 
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
+
+var off = function(){
+    lights.off();
+    lights.sync();
+}
+
+var buildSuccess = function(){
+    //rgb
+    lights.all(0, 0xff, 0);
+    lights.sync();
+}
+
+off();
 
 var handleStatus = function(data){
     
@@ -15,6 +28,7 @@ var handleStatus = function(data){
          console.log('faild'); 
     }else if(lastbuild.status == "SUCCESS"){
          console.log('success'); 
+         buildSuccess();
     }
    
 };
