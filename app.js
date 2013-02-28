@@ -1,10 +1,10 @@
 var tcHelper = require('./tcStatusGetter');
+var config = require('./config');
 
-var hostname = '10.0.1.13'
-    ,port = '8111'
-    ,user = 'xxx'
-    ,password = 'xxx'
 
-var tc = tcHelper(hostname, port, user, password);
+var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
-tc.getStatus();
+var handleStatus = function(data){
+    console.log(data);
+}
+tc.getStatus(handleStatus);
