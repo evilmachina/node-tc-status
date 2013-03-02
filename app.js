@@ -7,20 +7,16 @@ var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
 var off = function(){
     lights.off();
-    lights.sync();
 }
 
 var buildSuccess = function(){
     //rgb
     lights.all(0, 255, 0);
     lights.sync();
-    lights.sync();
-    lights.sync();
-    lights.sync();
 }
 
-//off();
-setTimeout(buildSuccess , 2000);
+off();
+
 
 var handleStatus = function(data){
     console.log(data);
@@ -36,4 +32,5 @@ var handleStatus = function(data){
     }
    
 };
-//tc.getStatus(handleStatus);
+setTimeout(tc.getStatus, 2000, handleStatus);
+

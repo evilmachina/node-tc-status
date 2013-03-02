@@ -30,18 +30,18 @@ LightStrips.prototype.sync = function() {
 
 LightStrips.prototype.all = function(r,g,b) {
     for(var i = 0; i < this.num_pixels; i++) {
-        this.set(i, 0x80 | g, 0x80 | r, 0x80 | b);
+        this.set(i, r, g, b);
     }
 }
 
 LightStrips.prototype.clear = function() {
-    this.pixel_buffer.fill(0);
+    this.pixel_buffer.fill(0x80 | 0);
 }
 
 LightStrips.prototype.set = function(pixel, r, g, b) {
-    this.pixel_buffer[pixel*3] = r;
-    this.pixel_buffer[pixel*3+1] = g;
-    this.pixel_buffer[pixel*3+2] = b;
+    this.pixel_buffer[pixel*3] = 0x80 | g;
+    this.pixel_buffer[pixel*3+1] = 0x80 | r;
+    this.pixel_buffer[pixel*3+2] = 0x80 | b;
 }
 
 /*
