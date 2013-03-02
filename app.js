@@ -15,22 +15,35 @@ var buildSuccess = function(){
     lights.sync();
 }
 
-off();
+var buildFailed = function(){
+    //rgb
+    lights.all(255, 0, 0);
+    lights.sync();
+}
+var building = function(percentageComplete){
+    //rgb
+    lights.all(255, 0, 255);
+    lights.sync();
+}
 
+off();
 
 var handleStatus = function(data){
     console.log(data);
     var lastbuild = JSON.parse(data).build[0];
     
-    if(lastbuild.status == "SUCCESS" && lastbuild.running){
-       console.log('building'); 
-    }else if(lastbuild.status == "FAILED"){
-         console.log('faild'); 
+    if(lastbuild.running){
+       console.log('building');
+       building(lastbuild.percentageComplete);
+    }else if(lastbuild.status == "FAILURE"){ 
+         console.log('faild');
+         buildFailed();
     }else if(lastbuild.status == "SUCCESS"){
          console.log('success'); 
          buildSuccess();
     }
    
 };
-setTimeout(tc.getStatus, 2000, handleStatus);
+
+setInterval(tc.getStatus, 2000, handleStatus);
 
