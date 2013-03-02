@@ -34,6 +34,15 @@ LightStrips.prototype.all = function(r,g,b) {
     }
 }
 
+LightStrips.prototype.fill = function(r, g, b, start, end) {
+    
+    var to = this.num_pixels < end ? this.num_pixels : end; 
+    var from = start || 0;
+    for(var i = from; i < to; i++) {
+        this.set(i, r, g, b);
+    }
+}
+
 LightStrips.prototype.clear = function() {
     this.pixel_buffer.fill(0x80 | 0);
 }

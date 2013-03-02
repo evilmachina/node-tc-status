@@ -1,49 +1,51 @@
+"use strict";
+
 var tcHelper = require('./tcStatusGetter');
 var config = require('./config'); 
 var LightStrips = require('./LPD8806').LightStrips;
-var lights = new LightStrips('/dev/spidev0.0', 4);
+
+var numberOfLEDs = 64;
+var lights = new LightStrips('/dev/spidev0.0', numberOfLEDs);
 
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
 var off = function(){
     lights.off();
-}
+};
 
 var buildSuccess = function(){
     //rgb
     lights.all(0, 255, 0);
     lights.sync();
-}
+};
 
 var buildFailed = function(){
     //rgb
     lights.all(255, 0, 0);
     lights.sync();
-}
+};
 var building = function(percentageComplete){
-    //rgb
-    lights.all(255, 0, 255);
+    var start = 0; 
+    var end = ~~(numberOfLEDs * (percentageComplete / 100));
+    lights.fill(255, 0, 255, start, end);
+    lights.fill(0, 0, 0, end, numberOfLEDs);
     lights.sync();
-}
-
-off();
+};
 
 var handleStatus = function(data){
-    console.log(data);
+    //console.log(data);
     var lastbuild = JSON.parse(data).build[0];
     
     if(lastbuild.running){
-       console.log('building');
        building(lastbuild.percentageComplete);
-    }else if(lastbuild.status == "FAILURE"){ 
-         console.log('faild');
+    }else if(lastbuild.status == "FAILURE"){
          buildFailed();
     }else if(lastbuild.status == "SUCCESS"){
-         console.log('success'); 
          buildSuccess();
     }
    
 };
 
-setInterval(tc.getStatus, 2000, handleStatus);
+off();
+setInterval(tc.getStatus, 1000, handleStatus);
 
