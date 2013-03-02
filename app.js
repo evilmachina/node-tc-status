@@ -1,7 +1,7 @@
 var tcHelper = require('./tcStatusGetter');
 var config = require('./config'); 
-var Pixel = require('adafruit-pixel').Pixel;
-var lights = new Pixel('/dev/spidev0.0', 64);
+var LightStrips = require('./LPD8806').LightStrips;
+var lights = new LightStrips('/dev/spidev0.0', 4);
 
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
@@ -12,11 +12,15 @@ var off = function(){
 
 var buildSuccess = function(){
     //rgb
-    lights.all(0, 0xff, 0);
+    lights.all(0, 255, 0);
+    lights.sync();
+    lights.sync();
+    lights.sync();
     lights.sync();
 }
 
-off();
+//off();
+setTimeout(buildSuccess , 2000);
 
 var handleStatus = function(data){
     console.log(data);
@@ -32,4 +36,4 @@ var handleStatus = function(data){
     }
    
 };
-tc.getStatus(handleStatus);
+//tc.getStatus(handleStatus);
