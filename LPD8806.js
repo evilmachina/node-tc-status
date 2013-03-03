@@ -1,6 +1,15 @@
 var spi = require('spi');
 
+
 function LightStrips(device, num_pixels) {
+    this.gamma = [];
+    
+    for(var i = 0; i <= 255; i++){
+        	// Color calculations from
+			// http://learn.adafruit.com/light-painting-with-raspberry-pi
+			this.gamma[i] = 0x80 | ~~(Math.pow(i / 255.0, 2.5) * 127.0 + 0.5);
+    }
+    
     this.num_pixels = num_pixels;
     this.pixel_buffer = new Buffer(num_pixels*3);
     this.off_buffer = new Buffer(num_pixels*3);
@@ -12,9 +21,9 @@ function LightStrips(device, num_pixels) {
                                     });
     this.device.open();
     this.pixel_buffer.fill(0);
-    this.off_buffer.fill(0x80 | 0);
     this.off();
     this.animate = null;
+  
 };
 
 LightStrips.prototype.off = function() {
@@ -44,13 +53,13 @@ LightStrips.prototype.fill = function(r, g, b, start, end) {
 }
 
 LightStrips.prototype.clear = function() {
-    this.pixel_buffer.fill(0x80 | 0);
+    this.pixel_buffer.fill(this.gamma[0]);
 }
 
 LightStrips.prototype.set = function(pixel, r, g, b) {
-    this.pixel_buffer[pixel*3] = 0x80 | g;
-    this.pixel_buffer[pixel*3+1] = 0x80 | r;
-    this.pixel_buffer[pixel*3+2] = 0x80 | b;
+    this.pixel_buffer[pixel*3] = this.gamma[Math.floor(g)];
+    this.pixel_buffer[pixel*3+1] = this.gamma[Math.floor(r)];
+    this.pixel_buffer[pixel*3+2] = this.gamma[Math.floor(b)];
 }
 
 /*
