@@ -7,8 +7,8 @@ var lights = new LightStrips('/dev/spidev0.0', numberOfLEDs);
 //lights.all(0, 0, 20);
 //lights.sync();
 //lights.off();
-//var throb = new animations.Throb(lights, numberOfLEDs, [255, 0, 0], [0, 0, 255], 5,{easing:"circular"});
+//var throb = new animations.Throb(lights, numberOfLEDs, [255, 0, 0], [0, 0, 255], 5);
 //throb.start();
 
-var larsonScanner = new animations.LarsonScanner(lights, numberOfLEDs, [255, 0, 0], 2, 0.75, 0, 0);
+var larsonScanner = new animations.LarsonScanner(lights, numberOfLEDs, [255, 0, 0], 20, 0.75, 0, 0, 5);
 larsonScanner.start();

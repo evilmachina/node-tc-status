@@ -24,7 +24,7 @@ function Throb(setter, num_pixels, start_color, end_color, duration, options)
 }
 
 Throb.prototype.start = function() {
-    console.log(this.easing);
+    //console.log(this.easing);
     this.running = true;
     this.tick();
 }

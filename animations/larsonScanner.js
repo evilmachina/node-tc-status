@@ -1,10 +1,6 @@
-
-
-
-var SPEED = 100;
-
-function LarsonScanner(setter, num_pixels, color, tail, fade, start, end)
+function LarsonScanner(setter, num_pixels, color, tail, fade, start, end, speed)
 {
+    this.speed = speed;
     this.setter = setter; 
     this.fade = fade;
     this.larsonStep = 0;
@@ -72,7 +68,7 @@ LarsonScanner.prototype.tick = function() {
     this.setter.sync();
     
     if (self.running) {
-        setTimeout(function() { self.tick(); }, SPEED);
+        setTimeout(function() { self.tick(); }, this.speed);
     }
 };
 
