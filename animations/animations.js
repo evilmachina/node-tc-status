@@ -1,3 +1,3 @@
-var Fill = require('./fill');
+var Throb = require('./throb');
 
-module.exports = {Fill:Fill};
+module.exports = {Throb:Throb};
