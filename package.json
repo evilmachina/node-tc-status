@@ -15,6 +15,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "spi": "git://github.com/evilmachina/node-spi.git",
-    "easing": "0.0.3"
+    "easing": "0.0.3",
+    "socket.io-client": "~0.9.11"
   }
 }

@@ -4,6 +4,7 @@ var tcHelper = require('./tcStatusGetter');
 var config = require('./config'); 
 var LightStrips = require('./LPD8806').LightStrips;
 var animations = require('./animations/animations');
+var everymote = require('./everymote');
 
 var numberOfLEDs = 64;
 var lights = new LightStrips('/dev/spidev0.0', numberOfLEDs);
@@ -49,12 +50,12 @@ var handleStatus = function(data){
 
 off();
 var standup = /^11:13/;
-var coffe = /^15:13/;
 var runningAnimation;
+var timer;
 
 var interval = function(){
     var time = new Date().toTimeString();
-    
+    var timeoutTime = 1000;
     if(runningAnimation){
         runningAnimation.stop()
         runningAnimation = null;
@@ -63,16 +64,24 @@ var interval = function(){
     if(standup.test(time)){
         runningAnimation = new animations.Throb(lights, numberOfLEDs, [255, 0, 0], [0, 0, 255], 5);
         runningAnimation.start();
-        setTimeout(interval, 120000);
-    }else if(coffe.test(time)){
-        runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
-        runningAnimation.start();
-        setTimeout(interval, 120000);
+        timeoutTime = 120000;
     }
     else{
       tc.getStatus(handleStatus); 
-      setTimeout(interval, 1000);  
+      timeoutTime = 1000;
     }
+    
+    timer = setTimeout(interval, timeoutTime);  
 }
 
 interval();
+var triggerAnimation = function(){
+    if(runningAnimation) return;
+    
+    clearTimeout(timer);
+    runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
+    runningAnimation.start();
+    setTimeout(interval, 60000);
+};
+
+everymote.coffeeConnecter(triggerAnimation, triggerAnimation);
