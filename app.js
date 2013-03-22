@@ -49,7 +49,7 @@ var handleStatus = function(data){
 };
 
 off();
-var standup = /^11:13/;
+var standup = /^11:14/;
 var runningAnimation;
 var timer;
 
@@ -63,13 +63,13 @@ var interval = function(){
         runningAnimation = null;
     }
     
-    if(nowtime.getHours() <= 8 || nowtime.getHours() >= 10){
+    if(nowtime.getHours() <= 8 || nowtime.getHours() >= 18){
          timeoutTime = 120000;
          off();
     }else if(standup.test(time)){
         runningAnimation = new animations.Throb(lights, numberOfLEDs, [255, 0, 0], [0, 0, 255], 5);
         runningAnimation.start();
-        timeoutTime = 120000;
+        timeoutTime = 60000;
     }else{
       tc.getStatus(handleStatus); 
       timeoutTime = 1000;
