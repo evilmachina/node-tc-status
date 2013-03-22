@@ -12,7 +12,7 @@ var lights = new LightStrips('/dev/spidev0.0', numberOfLEDs);
 var tc = tcHelper(config.hostname, config.port, config.user, config.password);
 
 var off = function(){
-    lights.off();
+   lights.off();
 };
 
 var buildSuccess = function(){
@@ -54,19 +54,23 @@ var runningAnimation;
 var timer;
 
 var interval = function(){
-    var time = new Date().toTimeString();
+    var nowtime = new Date();
+    
+    var time = nowtime.toTimeString();
     var timeoutTime = 1000;
     if(runningAnimation){
-        runningAnimation.stop()
+        runningAnimation.stop();
         runningAnimation = null;
     }
     
-    if(standup.test(time)){
+    if(nowtime.getHours() <= 8 || nowtime.getHours() >= 10){
+         timeoutTime = 120000;
+         off();
+    }else if(standup.test(time)){
         runningAnimation = new animations.Throb(lights, numberOfLEDs, [255, 0, 0], [0, 0, 255], 5);
         runningAnimation.start();
         timeoutTime = 120000;
-    }
-    else{
+    }else{
       tc.getStatus(handleStatus); 
       timeoutTime = 1000;
     }
@@ -79,9 +83,17 @@ var triggerAnimation = function(){
     if(runningAnimation) return;
     
     clearTimeout(timer);
-    runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
+    //runningAnimation = new animations.Throb(lights, numberOfLEDs, [0, 0, 255], [0, 0, 255], 1000); //new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
+    runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [255, 0, 0], 10, 0.75, 0, 0, 1);
     runningAnimation.start();
     setTimeout(interval, 60000);
 };
 
 everymote.coffeeConnecter(triggerAnimation, triggerAnimation);
+
+process.once('SIGUSR2', function () {
+  gracefulShutdown(function () {
+    off();
+    process.kill(process.pid, 'SIGUSR2'); 
+  })
+});
