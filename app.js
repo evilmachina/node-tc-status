@@ -63,7 +63,7 @@ var interval = function(){
         runningAnimation = null;
     }
     
-    if(nowtime.getHours() <= 8 || nowtime.getHours() >= 18){
+    if(nowtime.getHours() < 8 || nowtime.getHours() >= 18){
          timeoutTime = 120000;
          off();
     }else if(standup.test(time)){
@@ -84,7 +84,7 @@ var triggerAnimation = function(){
     
     clearTimeout(timer);
     //runningAnimation = new animations.Throb(lights, numberOfLEDs, [0, 0, 255], [0, 0, 255], 1000); //new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
-    runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [255, 0, 0], 10, 0.75, 0, 0, 1);
+    runningAnimation = new animations.LarsonScanner(lights, numberOfLEDs, [0, 0, 255], 10, 0.75, 0, 0, 1);
     runningAnimation.start();
     setTimeout(interval, 60000);
 };
